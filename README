@@ -8,3 +8,11 @@
 2.node r.js -o build.js
 3.修改config.js DEBUG:false
 
+介绍：
+1.这是一个技术测试项目
+2.服务端使用express + mysql + kupfilter
+3.web端使用requirejs + angularjs
+4.web端使用r.js 合并，压缩js代码
+5.服务端使用grunt-develop 实现修改代码后自动重启
+6.使用forever 管理 
+
