@@ -1,0 +1,10 @@
+运行：
+1.npm install
+2.mkdir logs
+3.node app.js
+
+打包并发布：
+1.cd public
+2.node r.js -o build.js
+3.修改config.js DEBUG:false
+
