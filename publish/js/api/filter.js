@@ -1,0 +1,1 @@
+require.config({paths:{moment:"lib/moment"}}),define(["moment","lib/angular"],function(){count=0;var a=angular.module("moduleFilter",[]);a.filter("dateFilter",function(){return function(a){return moment(a).utc().format("YYYY-MM-DD HH:mm:ss")}}),a.filter("searchFilter",function(){return function(a,b){return b?_.filter(a,function(a){return a.name.indexOf(b)>-1}):a}})})

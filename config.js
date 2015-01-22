@@ -1,5 +1,5 @@
 module.exports = {
-	DEBUG : true,
+	DEBUG : false,
     ROOT : __dirname,
     PORT : 3004,
 
