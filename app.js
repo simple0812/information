@@ -1,6 +1,7 @@
 express = require('express');
 app = express();
 var config = require('./config');
+var bodyParser = require('body-parser');
 
 //coffee模版设置
 app.set('view engine', 'coffee');
@@ -19,11 +20,11 @@ app.engine('coffee', require('kupfilter').__express);
 // app.use(partials());
 
 //中间件设置
-app.use(require('morgan')({
-	format: 'dev'
-}));
+app.use(require('morgan')('dev'));
 
-app.use(require('body-parser')());
+
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.json());
 app.use(require('method-override')());
 app.use(require('cookie-parser')());
 app.use(require('cookie-session')({
