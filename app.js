@@ -22,7 +22,6 @@ app.engine('coffee', require('kupfilter').__express);
 //中间件设置
 app.use(require('morgan')('dev'));
 
-
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
 app.use(require('method-override')());
