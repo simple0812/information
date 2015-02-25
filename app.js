@@ -75,9 +75,9 @@ if (cluster.isMaster) {
 
 	app.get('/test', function(req, res) {
 		// process.send('msg..................')
-		console.log('_______________________')
+		console.log('worker' + cluster.worker.id);
 
-		res.json({worker : cluster.worker.id})
+		res.json({worker : cluster.worker.id, pid: process.pid});
 		// res.end("worker" + cluster.worker.id);
 	})
 
