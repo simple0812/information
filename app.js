@@ -52,37 +52,37 @@ if (config.DEBUG) {
 	});
 }
 
-app.listen(config.PORT, function() {
-	console.log("listening on port " + config.PORT);
-});
+// app.listen(config.PORT, function() {
+// 	console.log("listening on port " + config.PORT);
+// });
 
-// var cluster = require('cluster');
-// var numCPUs = require('os').cpus().length;
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 
-// if (cluster.isMaster) {
-// 	require('os').cpus().forEach(function() {
-// 		cluster.fork().on('message', function(msg) {
-// 			console.log(msg);
-// 		});
-// 	});
-// 	cluster.on('exit', function(worker, code, signal) {
-// 		console.log('worker ' + worker.process.pid + ' died');
-// 	});
-// 	cluster.on('listening', function(worker, address) {
-// 		//console.log("A worker with #" + worker.id + " is now connected to " + address.address + ":" + address.port);
-// 	});
-// } else {
+if (cluster.isMaster) {
+	require('os').cpus().forEach(function() {
+		cluster.fork().on('message', function(msg) {
+			console.log(msg);
+		});
+	});
+	cluster.on('exit', function(worker, code, signal) {
+		console.log('worker ' + worker.process.pid + ' died');
+	});
+	cluster.on('listening', function(worker, address) {
+		//console.log("A worker with #" + worker.id + " is now connected to " + address.address + ":" + address.port);
+	});
+} else {
 
-// 	app.get('/test', function(req, res) {
-// 		// process.send('msg..................')
-// 		console.log('_______________________')
+	app.get('/test', function(req, res) {
+		// process.send('msg..................')
+		console.log('_______________________')
 
-// 		res.json({worker : cluster.worker.id})
-// 		// res.end("worker" + cluster.worker.id);
-// 	})
+		res.json({worker : cluster.worker.id})
+		// res.end("worker" + cluster.worker.id);
+	})
 
-// 	app.listen(CONFIG.PORT, function() {
-// 		console.log('Worker #' + cluster.worker.id + ' make a response');
-// 		console.log("listening on port " + CONFIG.PORT);
-// 	});
-// }
+	app.listen(config.PORT, function() {
+		console.log('Worker #' + cluster.worker.id + ' make a response');
+		console.log("listening on port " + config.PORT);
+	});
+}

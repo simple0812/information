@@ -1,6 +1,5 @@
 var router = express.Router();
 router.get('/', function(req, res) {
-	console.log('xxxxx')
 	res.send('hello world111111')
 });
 
