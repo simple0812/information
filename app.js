@@ -30,8 +30,10 @@ app.use(require('cookie-session')({
 	secret: 'xish'
 }));
 
+var env = process.env.NODE_ENV || 'production';
+
 //发布的时候要将public的js文件和css文件合并压缩到publish文件
-var staticPath = config.DEBUG ? "/public" : "/publish";
+var staticPath = env == 'development' ? "/public" : "/static";
 app.use(express["static"](__dirname + staticPath));
 
 //日志
@@ -49,7 +51,7 @@ app.get('/zl/test', function (req, res) {
 
 require("./routers/")(app);
 
-if (config.DEBUG) {
+if (env == 'development') {
 	app.use(require('errorhandler')());
 } else {
 	app.use(function(err, req, res, next) {
@@ -88,6 +90,6 @@ if (cluster.isMaster) {
 
 	app.listen(config.PORT, function() {
 		console.log('Worker #' + cluster.worker.id + ' make a response');
-		console.log("listening on port " + config.PORT);
+		console.log("listening on port " + config.PORT + ', env ->' + env);
 	});
 }

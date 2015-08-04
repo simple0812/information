@@ -8,6 +8,7 @@ var sass = require('gulp-ruby-sass');
 var minifycss = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
 var jasmine = require('gulp-jasmine');
+var clean = require('gulp-clean');
 
 var rjs = require('gulp-requirejs');
 
@@ -29,16 +30,25 @@ gulp.task('jasmine', function() {
 
 //客户端操作
 gulp.task('minjs', function() {
-	return gulp.src('src/js/*.js')
-		.pipe(concat('main.js'))
-		.pipe(gulp.dest('dest/js/'))
+	return gulp.src(['static/js/lib/require.js'])
 		.pipe(rename({
 			suffix: '.min'
 		}))
 		.pipe(uglify({
 			compress: true
 		}))
-		.pipe(gulp.dest('dest/js/'))
+		.pipe(gulp.dest('static/js/lib/'))
+});
+
+gulp.task('copy', function() {
+	return gulp.src(['public/**'])
+		.pipe(gulp.dest('static/'))
+
+});
+
+gulp.task('filter', ['copy'], function() {
+	return gulp.src(['static/js/!(lib)/'])
+		.pipe(clean())
 });
 
 gulp.task('css', function() {
@@ -55,9 +65,9 @@ gulp.task('css', function() {
 		.pipe(gulp.dest('dest/css/'))
 });
 
-gulp.task('rjs', function() {
+function adapter(moduleName) {
 	rjs({
-			name: 'user/app',
+			name: moduleName +'/app',
 			baseUrl: 'public/js/',
 			out: 'app.js',
 			optimize: "uglify",
@@ -75,7 +85,7 @@ gulp.task('rjs', function() {
 				pager: 'lib/pager',
 				extension: 'lib/extension',
 				md5: 'md5',
-				'module': 'user'
+				'module': moduleName
 			},
 			shim: {
 				'common': ['jquery', 'bootstrap'],
@@ -96,14 +106,18 @@ gulp.task('rjs', function() {
 				}
 			}
 		})
-		.pipe(gulp.dest('public/js/user'))
-		.pipe(rename({
-			suffix: '.min'
-		}))
+		// .pipe(gulp.dest('public/js/'+ moduleName))
+		// .pipe(rename({
+		// 	suffix: '.min'
+		// }))
 		.pipe(uglify({
 			compress: true
 		}))
-		.pipe(gulp.dest('public/js/user'));
+		.pipe(gulp.dest('static/js/' + moduleName));
+}
+
+gulp.task('rjs', function() {
+	['user', 'news'].forEach(adapter);
 });
 
 gulp.task("default", ['rjs'], function() {
@@ -111,5 +125,5 @@ gulp.task("default", ['rjs'], function() {
 })
 
 gulp.task('watch', function() {
-	gulp.watch('src/js/*.js', ['hint', 'js'])
+	gulp.watch('public/js/**', ['rjs'])
 });

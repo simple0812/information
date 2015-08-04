@@ -7,8 +7,7 @@ block 'title', ->
   link href:"/css/jquery.fileupload.css", rel:"stylesheet"
 
 block 'script', ->
-  script src:"/js/lib/jquery.js"
-  script src:"/js/lib/require.js", 'data-main':"/js/user/app.min.js"
+  script src:"/js/lib/require.js", 'data-main':"/js/user/app.js"
   coffeescript ->
     @query_list =
       pageindex : 1

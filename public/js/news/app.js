@@ -35,7 +35,7 @@ require.config({
 	}
 });
 
-require(['bootstrap', 'validator', 'module/service', 'module/controller', 'module/filter', 'module/editCtrl', 'module/directive'], function() {
+require(['bootstrap', 'validator', 'jquery', 'module/service', 'module/controller', 'module/filter', 'module/editCtrl', 'module/directive'], function() {
 	validator.bind();
 	angular.module('myApp', ['moduleListCtrl', 'moduleDetailCtrl', 'moduleSvc', 'moduleFilter', 'moduleDirect']);
 	angular.element(document).ready(function() {
