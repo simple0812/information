@@ -3,12 +3,14 @@ var proxy = require('../proxy');
 var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
 var fs = require('fs');
-var _ = require("underscore");
+var _ = require('underscore');
 
 exports.retrieve = function(req, res, next) {
 
 	fs.readFile('./docs/apidocs.xml', function(err, doc) {
-		if (err) return res.json(jsonHelper.getError(err));
+		if (err) {
+			return res.json(jsonHelper.getError(err));
+		}
 
 		parser.parseString(doc, function(err, json) {
 
@@ -23,26 +25,33 @@ exports.retrieve = function(req, res, next) {
 				if (each.params && each.params.length) {
 					t.params = _.map(each.params[0].field, function(item) {
 						for (var xp in item) {
-							if (_.isArray(item[xp])) item[xp] = item[xp][0]
+							if (_.isArray(item[xp])) {
+								item[xp] = item[xp][0];
+							}
 						}
 						return item;
-					})
-				} else t.params = [];
+					});
+				} else {
+					t.params = [];
+				}
 
 				if (each.result && each.result.length) {
 					t.result = _.map(each.result[0].field, function(item) {
 						for (var xp in item) {
-							if (_.isArray(item[xp])) item[xp] = item[xp][0]
+							if (_.isArray(item[xp])) {
+								item[xp] = item[xp][0];
+							}
 						}
 						return item;
-					})
-				} else t.result = [];
-				
+					});
+				} else {
+					t.result = [];
+				}
+
 				return t;
-			})
+			});
 
 			return res.json(jsonHelper.getSuccess(x));
-		})
-	})
-
-}
+		});
+	});
+};

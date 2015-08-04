@@ -9,6 +9,7 @@ describe("api接口测试", function() {
       method: 'get',
       timeout: 20 * 1000
     }
+    
     request(opt, function(err, response, body) {
       expect(err).toEqual(null)
       

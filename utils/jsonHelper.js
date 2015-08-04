@@ -24,13 +24,15 @@
       var json, _ref;
       logger.info('Cheese is Gouda.');
       json = new JsonHelper('success', '', doc);
-      _ref = [doc.length, allCount], json.count = _ref[0], json.allCount = _ref[1];
+      _ref = [doc.length, allCount];
+      json.count = _ref[0];
+      json.allCount = _ref[1];
       return json;
     };
 
     JsonHelper.getJsonPResult = function(doc, callback) {
       if (callback) {
-        return callback + "(" + JSON.stringify(doc) + ")";
+        return callback + '(' + JSON.stringify(doc) + ')';
       } else {
         return JSON.stringify(doc);
       }
@@ -40,7 +42,7 @@
       var p;
       p = new JsonHelper('success', '', doc);
       if (callback) {
-        return callback + "(" + JSON.stringify(p) + ")";
+        return callback + '(' + JSON.stringify(p) + ')';
       } else {
         return JSON.stringify(p);
       }
@@ -51,7 +53,7 @@
       logger.error(err.message || err.msg || err);
       doc = new JsonHelper('error', err.message || err.msg || err, '');
       if (callback) {
-        return callback + "(" + JSON.stringify(doc) + ")";
+        return callback + '(' + JSON.stringify(doc) + ')';
       } else {
         return JSON.stringify(doc);
       }

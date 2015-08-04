@@ -11,13 +11,24 @@ var jasmine = require('gulp-jasmine');
 
 var rjs = require('gulp-requirejs');
 
-gulp.task('hint', function() {
-	return gulp.src('src/js/*.js')
-		.pipe(plugins.jshint())
+//服务端语法检测
+gulp.task('jshint', function() {
+	return gulp.src(['controllers/*.js', 'models/*.js', 'proxy/*.js', 'utils/*.js'])
+		.pipe(plugins.jshint(require('./jshintConf')))
 		.pipe(plugins.jshint.reporter('default'));
 });
 
-gulp.task('js', function() {
+//jasmine
+gulp.task('jasmine', function() {
+	return gulp.src('test/*.js')
+		.pipe(jasmine({
+			// reporter: new reporters.JUnitXmlReporter()
+		}));
+})
+
+
+//客户端操作
+gulp.task('minjs', function() {
 	return gulp.src('src/js/*.js')
 		.pipe(concat('main.js'))
 		.pipe(gulp.dest('dest/js/'))
@@ -29,18 +40,6 @@ gulp.task('js', function() {
 		}))
 		.pipe(gulp.dest('dest/js/'))
 });
-
-
-//test
-
-gulp.task('test', function() {
-	return gulp.src('spec/test/*.js')
-		.pipe(jasmine({
-			// reporter: new reporters.JUnitXmlReporter()
-		}));
-
-})
-
 
 gulp.task('css', function() {
 	return gulp.src('src/css/main.scss')
@@ -61,6 +60,21 @@ gulp.task('rjs', function() {
 			name: 'user/app',
 			baseUrl: 'public/js/',
 			out: 'user.js',
+			paths: {
+				jquery: 'lib/jquery',
+				bootstrap: 'lib/bootstrap',
+				angular: 'lib/angular',
+				underscore: 'lib/underscore',
+				extension: 'lib/extension',
+				common: 'lib/common',
+				moment: 'lib/moment',
+				validator: 'lib/validator',
+				backbone: 'lib/backbone',
+				pager: 'lib/pager',
+				extension: 'lib/extension',
+				md5: 'md5',
+				'module': 'user'
+			},
 			shim: {
 				'common': ['jquery', 'bootstrap'],
 				'validator': ['jquery', 'common'],
@@ -77,18 +91,17 @@ gulp.task('rjs', function() {
 				},
 				'pager': {
 					exports: 'pager'
-				},
-				'jquery.fileupload': ['jquery', 'jquery.ui.widget']
+				}
 			}
 		})
-		.pipe(gulp.dest('dest/js/'))
+		.pipe(gulp.dest('publish/js/'))
 		.pipe(rename({
 			suffix: '.min'
 		}))
 		.pipe(uglify({
 			compress: true
 		}))
-		.pipe(gulp.dest('dest/js/'));
+		.pipe(gulp.dest('publish/js/'));
 });
 
 gulp.task("default", ['rjs'], function() {
