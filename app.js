@@ -41,6 +41,11 @@ app.use(logger.log4js.connectLogger(logger, {
 	format: ':method :status :url'
 }));
 
+app.get('/zl/test', function (req, res) {
+	console.log(req);
+	res.send('x')
+})
+
 
 require("./routers/")(app);
 
