@@ -8,7 +8,7 @@ block 'title', ->
 
 block 'script', ->
   script src:"/js/lib/jquery.js"
-  script src:"/js/lib/require.js", 'data-main':"/js/user/app.js"
+  script src:"/js/lib/require.js", 'data-main':"/js/user/app.min.js"
   coffeescript ->
     @query_list =
       pageindex : 1

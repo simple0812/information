@@ -59,7 +59,9 @@ gulp.task('rjs', function() {
 	rjs({
 			name: 'user/app',
 			baseUrl: 'public/js/',
-			out: 'user.js',
+			out: 'app.js',
+			optimize: "uglify",
+			optimizeCss: "standard.keepLines",
 			paths: {
 				jquery: 'lib/jquery',
 				bootstrap: 'lib/bootstrap',
@@ -94,14 +96,14 @@ gulp.task('rjs', function() {
 				}
 			}
 		})
-		.pipe(gulp.dest('publish/js/'))
+		.pipe(gulp.dest('public/js/user'))
 		.pipe(rename({
 			suffix: '.min'
 		}))
 		.pipe(uglify({
 			compress: true
 		}))
-		.pipe(gulp.dest('publish/js/'));
+		.pipe(gulp.dest('public/js/user'));
 });
 
 gulp.task("default", ['rjs'], function() {

@@ -1,9 +1,0 @@
-<script type="text/javascript" src="js/lib/jquery.js"></script>
-<div id='test'></div>
-<script>
-	for(var i =0; i< 10000; i++) {
-	$.get('/test', {}, function(json) {
-		$('#test').append('<p>' + json.worker + '</p>')
-	})
-}
-</script>
